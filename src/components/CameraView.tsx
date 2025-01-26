@@ -10,6 +10,7 @@ import * as cocossd from '@tensorflow-models/coco-ssd'
 import { analyzePlantImage } from '@/utils/openai'
 import { Camera, X } from 'lucide-react'
 import toast, { Toaster } from 'react-hot-toast'
+import Image from 'next/image'
 
 export default function CameraView() {
   const webcamRef = useRef<Webcam>(null)
@@ -381,10 +382,12 @@ export default function CameraView() {
                 <div className="bg-white rounded-2xl overflow-hidden shadow-xl flex flex-col">
                   {capturedImage && (
                     <div className="mx-auto py-2">
-                      <img 
+                      <Image 
                         src={capturedImage} 
                         alt="Captured Image"
-                        className="w-auto h-[200px]"
+                        width={200}
+                        height={200}
+                        className="w-auto h-[200px] object-contain"
                       />
                     </div>
                   )}
