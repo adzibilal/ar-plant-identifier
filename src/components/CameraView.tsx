@@ -259,12 +259,12 @@ export default function CameraView() {
           <Webcam
             ref={webcamRef}
             screenshotFormat="image/jpeg"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
             videoConstraints={{
-              width: { ideal: dimensions.width },
-              height: { ideal: dimensions.height },
+              width: 1280,
+              height: 720,
               facingMode: 'environment',
-              aspectRatio: dimensions.width / dimensions.height
+              aspectRatio: 16/9
             }}
           />
           
@@ -357,7 +357,7 @@ export default function CameraView() {
                           <>
                             <div>
                               <h4 className="text-gray-500 text-sm font-medium mb-2">INFORMASI ILMIAH</h4>
-                              <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                              <div className="bg-gray-50 rounded-lg p-3 space-y-2 text-black">
                                 <p className="text-sm">
                                   <span className="font-medium">Nama Ilmiah:</span> {analysisResult.details.scientificName}
                                 </p>
@@ -372,7 +372,7 @@ export default function CameraView() {
 
                             <div>
                               <h4 className="text-gray-500 text-sm font-medium mb-2">KARAKTERISTIK</h4>
-                              <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                              <div className="bg-gray-50 rounded-lg p-3 space-y-2 text-black">
                                 {analysisResult.details.characteristics && (
                                   <>
                                     <p className="text-sm">
@@ -397,7 +397,7 @@ export default function CameraView() {
                             {analysisResult.details.careInstructions && (
                               <div>
                                 <h4 className="text-gray-500 text-sm font-medium mb-2">PANDUAN PERAWATAN</h4>
-                                <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                                <div className="bg-gray-50 rounded-lg p-3 space-y-2 text-black">
                                   <p className="text-sm">
                                     <span className="font-medium">Penyiraman:</span> {analysisResult.details.careInstructions.watering}
                                   </p>
