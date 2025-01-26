@@ -47,31 +47,6 @@ export default function CameraView() {
   } | null>(null)
   const [capturedImage, setCapturedImage] = useState<string | null>(null)
 
-  // Daftar kata kunci yang lebih komprehensif untuk deteksi tanaman
-  const plantKeywords = [
-    // Kategori umum
-    'potted plant', 'plant', 'tree', 'flower', 'grass',
-    'leaf', 'palm tree', 'bush', 'vine', 'herb',
-    'garden', 'forest', 'vegetation', 'flora', 'branch',
-    
-    // Tanaman Spesifik
-    'rose', 'lily', 'orchid', 'cactus', 'bamboo',
-    'fern', 'moss', 'algae', 'succulent', 'bonsai',
-    'sunflower', 'tulip', 'daisy', 'maple', 'oak',
-    'pine', 'palm', 'banana', 'mango', 'apple',
-    
-    // Bagian Tanaman
-    'stem', 'trunk', 'root', 'branch', 'twig',
-    'bud', 'shoot', 'seedling', 'sapling', 'sprout',
-    
-    // Habitat
-    'greenhouse', 'garden', 'forest', 'jungle', 'park',
-    
-    // Deskripsi
-    'green', 'leafy', 'flowering', 'tropical', 'botanical',
-    'evergreen', 'deciduous', 'perennial', 'annual'
-  ]
-
   // Fungsi yang lebih sederhana dan lebih sensitif untuk deteksi tanaman
   const isPlant = (className: string, confidence: number): boolean => {
     const normalizedClass = className.toLowerCase()
@@ -229,36 +204,6 @@ export default function CameraView() {
       }
     }
   }, [detectorModel])
-
-  const cropImageToPlant = async (imageElement: HTMLImageElement, bbox: [number, number, number, number]) => {
-    const canvas = document.createElement('canvas')
-    const context = canvas.getContext('2d')
-    if (!context) return null
-
-    const [x, y, width, height] = bbox
-    
-    // Tambahkan padding 10% di sekitar area tanaman
-    const padding = {
-      x: width * 0.1,
-      y: height * 0.1
-    }
-
-    const cropX = Math.max(0, x - padding.x)
-    const cropY = Math.max(0, y - padding.y)
-    const cropWidth = Math.min(width + (padding.x * 2), imageElement.width - cropX)
-    const cropHeight = Math.min(height + (padding.y * 2), imageElement.height - cropY)
-
-    canvas.width = cropWidth
-    canvas.height = cropHeight
-
-    context.drawImage(
-      imageElement,
-      cropX, cropY, cropWidth, cropHeight,
-      0, 0, cropWidth, cropHeight
-    )
-
-    return canvas.toDataURL('image/jpeg')
-  }
 
   const captureAndAnalyze = async () => {
     if (!webcamRef.current || isAnalyzing) return
