@@ -5,7 +5,6 @@ import Webcam from 'react-webcam'
 import * as tf from '@tensorflow/tfjs'
 import '@tensorflow/tfjs-backend-cpu'
 import '@tensorflow/tfjs-backend-webgl'
-import * as mobilenet from '@tensorflow-models/mobilenet'
 import * as cocossd from '@tensorflow-models/coco-ssd'
 import { analyzePlantImage } from '@/utils/openai'
 import { Camera, X } from 'lucide-react'
@@ -15,10 +14,7 @@ import Image from 'next/image'
 export default function CameraView() {
   const webcamRef = useRef<Webcam>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [model, setModel] = useState<mobilenet.MobileNet | null>(null)
   const [detectorModel, setDetectorModel] = useState<cocossd.ObjectDetection | null>(null)
-  const [prediction, setPrediction] = useState<string>('')
-  const [plantInfo, setPlantInfo] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [dimensions, setDimensions] = useState({ width: 640, height: 480 })
@@ -133,12 +129,10 @@ export default function CameraView() {
         await tf.setBackend('webgl')
         console.log('Using backend:', tf.getBackend())
         
-        const [loadedMobilenet, loadedDetector] = await Promise.all([
-          mobilenet.load(),
+        const [loadedDetector] = await Promise.all([
           cocossd.load()
         ])
         
-        setModel(loadedMobilenet)
         setDetectorModel(loadedDetector)
         setIsLoading(false)
         console.log('Model berhasil dimuat')
@@ -147,11 +141,9 @@ export default function CameraView() {
         try {
           await tf.setBackend('cpu')
           console.log('Fallback to CPU backend')
-          const [loadedMobilenet, loadedDetector] = await Promise.all([
-            mobilenet.load(),
+          const [loadedDetector] = await Promise.all([
             cocossd.load()
           ])
-          setModel(loadedMobilenet)
           setDetectorModel(loadedDetector)
           setIsLoading(false)
         } catch (cpuError) {
