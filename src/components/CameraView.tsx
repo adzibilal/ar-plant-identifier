@@ -17,7 +17,6 @@ export default function CameraView() {
   const [detectorModel, setDetectorModel] = useState<cocossd.ObjectDetection | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
-  const [dimensions, setDimensions] = useState({ width: 640, height: 480 })
   const [showModal, setShowModal] = useState(false)
   const [analysisResult, setAnalysisResult] = useState<{
     isPlant: boolean
@@ -80,23 +79,6 @@ export default function CameraView() {
 
     return false
   }
-
-  useEffect(() => {
-    setDimensions({
-      width: window.innerWidth,
-      height: window.innerHeight
-    })
-
-    const handleResize = () => {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight
-      })
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   useEffect(() => {
     const initializeTF = async () => {
